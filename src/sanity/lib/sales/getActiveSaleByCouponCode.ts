@@ -8,7 +8,7 @@ export const getActiveSaleByCouponCode = async (couponCode: couponCode) => {
             _type == "sale"
             && isActive == true
             && couponCode == $couponCode
-        ] | orderType(validFrom desc)[0]
+        ] | order(validFrom desc)[0]
     `)
 
     try {
