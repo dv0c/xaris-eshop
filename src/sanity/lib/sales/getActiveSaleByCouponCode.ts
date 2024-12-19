@@ -8,7 +8,7 @@ export const getActiveSaleByCouponCode = async (couponCode: couponCode) => {
             _type == "sale"
             && isActive == true
             && couponCode == $couponCode
-        ] | orderType(validForm desc)[0]
+        ] | orderType(validFrom desc)[0]
     `)
 
     try {
@@ -18,6 +18,7 @@ export const getActiveSaleByCouponCode = async (couponCode: couponCode) => {
                 couponCode
             }
         })
+        return activeSale ? activeSale.data : null
     } catch (error) {
         console.error("Error fetching active sale by coupon code: ", error)
         return null
