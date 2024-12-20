@@ -1,4 +1,5 @@
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
+'use client'
+import { Book, List, Menu, Search, ShoppingBag, Sunset, Trees, Zap } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -25,22 +26,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { ClerkLoaded, SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import Link from "next/link";
+import { Input } from "./input";
 
 const subMenuItemsOne = [
   {
     title: "Blog",
     description: "The latest industry news, updates, and info",
     icon: <Book className="size-5 shrink-0" />,
-  },
-  {
-    title: "Compnay",
-    description: "Our mission is to innovate and empower the world",
-    icon: <Trees className="size-5 shrink-0" />,
-  },
-  {
-    title: "Careers",
-    description: "Browse job listing and discover our workspace",
-    icon: <Sunset className="size-5 shrink-0" />,
   },
   {
     title: "Support",
@@ -74,6 +68,8 @@ const subMenuItemsTwo = [
 ];
 
 const Header = () => {
+  const { user } = useUser()
+
   return (
     <section className="py-4 border-b">
       <div className="container mx-auto">
@@ -83,113 +79,41 @@ const Header = () => {
               <img src="/logo.png" className="w-8" alt="logo" />
               <span className="text-xl font-bold">Xaris Concepts</span>
             </div>
-            <div className="flex items-center">
-              <a
-                className={cn(
-                  "text-muted-foreground",
-                  navigationMenuTriggerStyle,
-                  buttonVariants({
-                    variant: "ghost",
-                  }),
-                )}
-                href="#"
-              >
-                Home
-              </a>
-              <NavigationMenu>
-                <NavigationMenuList>
-                  <NavigationMenuItem className="text-muted-foreground">
-                    <NavigationMenuTrigger>
-                      <span>Products</span>
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="w-80 p-3">
-                        <NavigationMenuLink>
-                          {subMenuItemsOne.map((item, idx) => (
-                            <li key={idx}>
-                              <a
-                                className={cn(
-                                  "flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                                )}
-                                href="#"
-                              >
-                                {item.icon}
-                                <div>
-                                  <div className="text-sm font-semibold">
-                                    {item.title}
-                                  </div>
-                                  <p className="text-sm leading-snug text-muted-foreground">
-                                    {item.description}
-                                  </p>
-                                </div>
-                              </a>
-                            </li>
-                          ))}
-                        </NavigationMenuLink>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                  <NavigationMenuItem className="text-muted-foreground">
-                    <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="w-80 p-3">
-                        <NavigationMenuLink>
-                          {subMenuItemsTwo.map((item, idx) => (
-                            <li key={idx}>
-                              <a
-                                className={cn(
-                                  "flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                                )}
-                                href="#"
-                              >
-                                {item.icon}
-                                <div>
-                                  <div className="text-sm font-semibold">
-                                    {item.title}
-                                  </div>
-                                  <p className="text-sm leading-snug text-muted-foreground">
-                                    {item.description}
-                                  </p>
-                                </div>
-                              </a>
-                            </li>
-                          ))}
-                        </NavigationMenuLink>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
 
-              <a
-                className={cn(
-                  "text-muted-foreground",
-                  navigationMenuTriggerStyle,
-                  buttonVariants({
-                    variant: "ghost",
-                  }),
-                )}
-                href="#"
-              >
-                Pricing
-              </a>
-              <a
-                className={cn(
-                  "text-muted-foreground",
-                  navigationMenuTriggerStyle,
-                  buttonVariants({
-                    variant: "ghost",
-                  }),
-                )}
-                href="#"
-              >
-                Blog
-              </a>
+            <div className="relative flex items-center gap-2">
+              <Search className="absolute left-2.5" size={15} />
+              <Input
+                type="text"
+                name="query"
+                className="pl-8"
+                placeholder="Search for products"
+              />
             </div>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline">Log in</Button>
-            <Button>Sign up</Button>
+          <div className="flex items-center gap-5">
+            <ClerkLoaded>
+              {user && <Link href={'/orders'}>
+                <div className="items-center flex">
+                  <Button variant={'ghost'} size={'icon'}>
+                    <List />
+                  </Button>
+                  <Button variant={'ghost'} size={'icon'}>
+                    <ShoppingBag />
+                  </Button>
+                </div>
+              </Link>}
+
+              {user ? <div className="flex items-center space-x-2">
+                <UserButton />
+                <div className="hidden sm:block text-xs">
+                  <p className="text-gray-400">Welcome back</p>
+                  <p className="font-bold">{user.fullName}!</p>
+
+                </div>
+              </div> : <div className={buttonVariants({ variant: 'outline' })}>
+                <SignInButton mode="modal" />
+              </div>}
+            </ClerkLoaded>
           </div>
         </nav>
         <div className="block lg:hidden">
@@ -351,17 +275,29 @@ const Header = () => {
                       Cookie Settings
                     </a>
                   </div>
-                  <div className="mt-2 flex flex-col gap-3">
-                    <Button variant="outline">Log in</Button>
-                    <Button>Sign up</Button>
-                  </div>
+                  <ClerkLoaded>
+                    {user && <Link href={'/orders'}>
+                      <Button>My orders</Button>
+                    </Link>}
+
+                    {user ? <div className="flex items-center space-x-2">
+                      <UserButton />
+                      <div className="hidden sm:block text-xs">
+                        <p className="text-gray-400">Welcome back</p>
+                        <p className="font-bold">{user.fullName}!</p>
+
+                      </div>
+                    </div> : <div>
+                      <SignInButton mode="modal" />
+                    </div>}
+                  </ClerkLoaded>
                 </div>
               </SheetContent>
             </Sheet>
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 
