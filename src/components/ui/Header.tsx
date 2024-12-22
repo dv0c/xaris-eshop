@@ -75,10 +75,12 @@ const Header = () => {
       <div className="container mx-auto">
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              <img src="/logo.png" className="w-8" alt="logo" />
-              <span className="text-xl font-bold">Xaris Concepts</span>
-            </div>
+            <Link href={'/'}>
+              <div className="flex items-center gap-2">
+                <img src="/logo.png" className="w-8" alt="logo" />
+                <span className="text-xl font-bold">Xaris Concepts</span>
+              </div>
+            </Link>
 
             <div className="relative flex items-center gap-2">
               <Search className="absolute left-2.5" size={15} />
