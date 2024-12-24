@@ -25,6 +25,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const off = process.env.NODE_ENV === "development" ? false : true;
+
+  if (off) return <html>
+    <body>
+      null process nod_env is not active {process.env.NODE_ENV}
+    </body>
+  </html>
+
   return (
     <ClerkProvider dynamic>
       <html lang="en">
