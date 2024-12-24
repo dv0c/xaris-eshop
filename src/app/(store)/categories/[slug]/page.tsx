@@ -14,7 +14,9 @@ const page: FC<pageProps> = async ({ params }) => {
     const products = await getProductsByCategory(slug)
     const categories = await getAllCategories()
 
-    return <div>page</div>
+    return <div className='flex flex-col items-center justify-top min-h-screen bg-gray-100 p-4'>
+        
+    </div>
 }
 
 export default page
