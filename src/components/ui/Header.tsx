@@ -188,9 +188,6 @@ const Header = () => {
     <div>
       <div className="lg:hidden fixed top-0 left-0 right-0 bg-white z-50 px-4 py-2" >
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="-ml-2">
-            <ChevronLeft className="h-6 w-6" />
-          </Button>
           <Form action={'/search'} className="relative flex-1">
             <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input type="text"
@@ -199,9 +196,9 @@ const Header = () => {
               className="pl-9 pr-9 w-full bg-gray-100 rounded-full"
             />
           </Form>
-          <Button variant="ghost" size="icon" className="-mr-2">
-            <Heart className="h-6 w-6" />
-          </Button>
+          <ClerkLoaded>
+            {user ? <UserButton /> : <SignInButton mode="modal" />}
+          </ClerkLoaded>
         </div>
       </div>
 
