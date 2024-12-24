@@ -30,42 +30,6 @@ import { ClerkLoaded, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { Input } from "./input";
 
-const subMenuItemsOne = [
-  {
-    title: "Blog",
-    description: "The latest industry news, updates, and info",
-    icon: <Book className="size-5 shrink-0" />,
-  },
-  {
-    title: "Support",
-    description:
-      "Get in touch with our support team or visit our community forums",
-    icon: <Zap className="size-5 shrink-0" />,
-  },
-];
-
-const subMenuItemsTwo = [
-  {
-    title: "Help Center",
-    description: "Get all the answers you need right here",
-    icon: <Zap className="size-5 shrink-0" />,
-  },
-  {
-    title: "Contact Us",
-    description: "We are here to help you with any questions you have",
-    icon: <Sunset className="size-5 shrink-0" />,
-  },
-  {
-    title: "Status",
-    description: "Check the current status of our services and APIs",
-    icon: <Trees className="size-5 shrink-0" />,
-  },
-  {
-    title: "Terms of Service",
-    description: "Our terms and conditions for using our services",
-    icon: <Book className="size-5 shrink-0" />,
-  },
-];
 
 const Header = () => {
   const { user } = useUser()
@@ -147,60 +111,6 @@ const Header = () => {
                   <a href="#" className="font-semibold">
                     Home
                   </a>
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem value="products" className="border-b-0">
-                      <AccordionTrigger className="mb-4 py-0 font-semibold hover:no-underline">
-                        Products
-                      </AccordionTrigger>
-                      <AccordionContent className="mt-2">
-                        {subMenuItemsOne.map((item, idx) => (
-                          <a
-                            key={idx}
-                            className={cn(
-                              "flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                            )}
-                            href="#"
-                          >
-                            {item.icon}
-                            <div>
-                              <div className="text-sm font-semibold">
-                                {item.title}
-                              </div>
-                              <p className="text-sm leading-snug text-muted-foreground">
-                                {item.description}
-                              </p>
-                            </div>
-                          </a>
-                        ))}
-                      </AccordionContent>
-                    </AccordionItem>
-                    <AccordionItem value="resources" className="border-b-0">
-                      <AccordionTrigger className="py-0 font-semibold hover:no-underline">
-                        Resources
-                      </AccordionTrigger>
-                      <AccordionContent className="mt-2">
-                        {subMenuItemsTwo.map((item, idx) => (
-                          <a
-                            key={idx}
-                            className={cn(
-                              "flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                            )}
-                            href="#"
-                          >
-                            {item.icon}
-                            <div>
-                              <div className="text-sm font-semibold">
-                                {item.title}
-                              </div>
-                              <p className="text-sm leading-snug text-muted-foreground">
-                                {item.description}
-                              </p>
-                            </div>
-                          </a>
-                        ))}
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
                   <a href="#" className="font-semibold">
                     Pricing
                   </a>
