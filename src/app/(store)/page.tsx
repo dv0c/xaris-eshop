@@ -1,31 +1,15 @@
-// import BlackFridayBanner from "@/components/BlackFridayBanner";
-// import ProductsView from "@/components/ui/ProductsView";
-// import { getAllCategories } from "@/sanity/lib/products/getAllCategories";
-// import { getAllProducts } from "@/sanity/lib/products/getAllProducts";
-
-// export default async function Home() {
-//   const products = await getAllProducts();
-//   const categories = await getAllCategories()
-
-//   return (
-//     <div>
-//       <BlackFridayBanner />
-//       {/* render all products */}
-//       <div className="flex flex-col items-center justify-top min-h-screen bg-gray-100 p-4">
-//         <ProductsView categories={categories} products={products} />
-//       </div>
-//     </div>
-//   );
-// }
-
-
 import BlackFridayBanner from '@/components/BlackFridayBanner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Clock, Plus, Star, Users } from 'lucide-react'
 
 
-export default function Home() {
+export default async function Home() {
+
+  //   const products = await getAllProducts();
+  //   const categories = await getAllCategories()
+
+
   return (
     <div className="min-h-screen bg-gray-50">
 
