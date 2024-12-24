@@ -55,7 +55,7 @@ const CategorySelector: FC<CategorySelectorComponentProps> = ({ categories }) =>
                 const selectedCategory = categories.find((c) => c.title?.toLowerCase().includes(e.currentTarget.value.toLowerCase()))
                 if (selectedCategory?.slug?.current) {
                   setValue(selectedCategory._id);
-                  router.push(`/categories=${selectedCategory.slug.current}`)
+                  router.push(`/categories/${selectedCategory.slug.current}`)
                   setOpen(false)
                 }
               }
@@ -69,7 +69,7 @@ const CategorySelector: FC<CategorySelectorComponentProps> = ({ categories }) =>
                   value={category.title}
                   onSelect={(currentValue) => {
                     setValue(value == category._id ? "" : category._id)
-                    router.push(`/categories=${category.slug?.current}`)
+                    router.push(`/categories/${category.slug?.current}`)
                     setOpen(false)
                   }}
                 >

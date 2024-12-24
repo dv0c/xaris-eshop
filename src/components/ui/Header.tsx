@@ -1,24 +1,9 @@
 'use client'
-import { Book, List, Menu, Search, ShoppingBag, Sunset, Trees, Zap } from "lucide-react";
+import { List, Menu, Search, ShoppingBag } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
 import {
   Sheet,
   SheetContent,
@@ -29,6 +14,7 @@ import {
 import { ClerkLoaded, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { Input } from "./input";
+import Form from 'next/form'
 
 
 const Header = () => {
@@ -46,7 +32,7 @@ const Header = () => {
               </div>
             </Link>
 
-            <div className="relative flex items-center gap-2">
+            <Form action={'/search'} className="relative flex items-center gap-2">
               <Search className="absolute left-2.5" size={15} />
               <Input
                 type="text"
@@ -54,7 +40,7 @@ const Header = () => {
                 className="pl-8"
                 placeholder="Search for products"
               />
-            </div>
+            </Form>
           </div>
           <div className="flex items-center gap-5">
             <ClerkLoaded>

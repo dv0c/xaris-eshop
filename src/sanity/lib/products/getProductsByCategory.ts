@@ -16,7 +16,7 @@ export const getProductsByCategory = async (categorySlug: string) => {
         categorySlug,
       },
     });
-    return products || [];
+    return products.data || [];
   } catch (error) {
     console.error("Error fetching products by category: ", error);
     return [];
