@@ -1,12 +1,16 @@
 import BlackFridayBanner from '@/components/BlackFridayBanner'
+import ProductThumb from '@/components/ProductThumb';
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { imageUrl } from '@/lib/imageUrl';
+import { getAllProducts } from '@/sanity/lib/products/getAllProducts';
 import { Clock, Plus, Star, Users } from 'lucide-react'
+import Link from 'next/link';
 
 
 export default async function Home() {
 
-  //   const products = await getAllProducts();
+  const products = await getAllProducts();
   //   const categories = await getAllCategories()
 
 
@@ -91,67 +95,14 @@ export default async function Home() {
             </section>
             <section>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold">Προσφορές</h3>
+                <h3 className="text-lg font-bold">Νέα</h3>
                 <Button variant="ghost" className="text-blue-500 -mr-2">
                   Όλα
                 </Button>
               </div>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-                {[
-                  {
-                    title: "Μπρελοκ με Ροζ Πέτρες",
-                    price: "3,00 €",
-                    originalPrice: "5,00 €",
-                    image: "/placeholder.svg"
-                  },
-                  {
-                    title: "Κολιέ Χρυσό Γούρι 25 με Ασημί Αλυσίδα",
-                    price: "18,00 €",
-                    originalPrice: "20,00 €",
-                    image: "/placeholder.svg"
-                  },
-                  {
-                    title: "Κολιέ Φτερό",
-                    price: "15,00 €",
-                    originalPrice: "18,00 €",
-                    image: "/placeholder.svg"
-                  },
-                  {
-                    title: "Βραχιόλι με Χάντρες",
-                    price: "12,00 €",
-                    originalPrice: "15,00 €",
-                    image: "/placeholder.svg"
-                  }
-                ].map((product, index) => (
-                  <Card key={index} className="overflow-hidden group">
-                    <CardContent className="p-0">
-                      <div className="aspect-square relative">
-                        <img
-                          src={product.image}
-                          alt={product.title}
-                          className="w-full h-full object-cover"
-                        />
-                        <Button
-                          size="icon"
-                          variant="secondary"
-                          className="absolute bottom-2 right-2 h-8 w-8 rounded-full bg-white shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <Plus className="h-5 w-5" />
-                        </Button>
-                      </div>
-                      <div className="p-3">
-                        <div className="flex items-baseline gap-1 mb-1">
-                          <div className="font-bold text-sm">{product.price}</div>
-                          <div className="text-xs text-muted-foreground line-through">
-                            {product.originalPrice}
-                          </div>
-                        </div>
-                        <div className="text-xs text-muted-foreground truncate">
-                          {product.title}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                {products.map((product, index) => (
+                  <ProductThumb product={product} key={index} />
                 ))}
               </div>
             </section>
