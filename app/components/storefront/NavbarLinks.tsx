@@ -17,18 +17,18 @@ export const navbarLinks = [
   },
   {
     id: 2,
-    name: "Men",
-    href: "/products/men",
+    name: "Κοσμήματα",
+    href: "/products/kosmimata",
   },
   {
     id: 3,
-    name: "Women",
-    href: "/products/women",
+    name: "Γούρια 2025",
+    href: "/products/luck2025",
   },
   {
     id: 4,
-    name: "Kids",
-    href: "/products/kids",
+    name: "Αξεσουάρ",
+    href: "/products/aksesouar",
   },
 ];
 
