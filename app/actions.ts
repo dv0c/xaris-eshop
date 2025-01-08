@@ -3,7 +3,7 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import { parseWithZod } from "@conform-to/zod";
-import { bannerSchema, productSchema } from "./lib/zodSchemas";
+import { bannerSchema, categorySchema, productSchema } from "./lib/zodSchemas";
 import prisma from "./lib/db";
 import { redis } from "./lib/redis";
 import { Cart } from "./lib/interfaces";
@@ -45,6 +45,35 @@ export async function createProduct(prevState: unknown, formData: FormData) {
 
   redirect("/dashboard/products");
 }
+
+export async function createCategory(prevState: unknown, formData: FormData) {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user || user.email !== "tasosmeidanis12@gmail.com") {
+    return redirect("/");
+  }
+
+  const submission = parseWithZod(formData, {
+    schema: categorySchema,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+
+  await prisma.category.create({
+    data: {
+      name: submission.value.name,
+      title: submission.value.title,
+      image: submission.value.image,
+    },
+  });
+
+  redirect("/dashboard/categories");
+}
+
 
 export async function editProduct(prevState: any, formData: FormData) {
   const { getUser } = getKindeServerSession();

@@ -10,6 +10,12 @@ export const productSchema = z.object({
   isFeatured: z.boolean().optional(),
 });
 
+export const categorySchema = z.object({
+  name: z.string(),
+  title: z.string(),
+  image: z.string(),
+});
+
 export const bannerSchema = z.object({
   title: z.string(),
   imageString: z.string(),

@@ -22,13 +22,13 @@ export async function Navbar() {
   return (
     <header>
       <div className="border-b bg-[#F285A1] text-white border-gray-200 flex justify-center items-center py-2">
-        <h1>ΔΩΡΕΑΝ ΑΠΟΣΤΟΛΗ ΑΝΩ ΤΩΝ 30 ΕΥΡΟ</h1>
+        <h1>ΔΩΡΕΑΝ ΑΠΟΣΤΟΛΗ ΑΝΩ ΤΩΝ 30 ΕΥΡΩ</h1>
       </div>
       <nav className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
         <div className="flex items-center">
           <Link href="/">
             <h1 className="text-black font-bold text-xl lg:text-3xl">
-              Xaris Concept
+              Xaris Concept Store
             </h1>
           </Link>
           <NavbarLinks />
