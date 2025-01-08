@@ -31,12 +31,15 @@ import { productSchema } from "@/app/lib/zodSchemas";
 import { useState } from "react";
 
 import Image from "next/image";
-import { categories } from "@/app/lib/categories";
 import { SubmitButton } from "@/app/components/SubmitButtons";
+import useCategories from "@/app/lib/hooks/useCategories";
 
 export default function ProductCreateRoute() {
   const [images, setImages] = useState<string[]>([]);
   const [lastResult, action] = useFormState(createProduct, undefined);
+
+  const { categories, loading, error } = useCategories();
+
   const [form, fields] = useForm({
     lastResult,
 
@@ -51,6 +54,15 @@ export default function ProductCreateRoute() {
   const handleDelete = (index: number) => {
     setImages(images.filter((_, i) => i !== index));
   };
+
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error loading categories: {error.message}</p>;
+  }
 
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={action}>

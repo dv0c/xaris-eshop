@@ -25,7 +25,6 @@ import { SubmitButton } from "../SubmitButtons";
 import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
 import { UploadDropzone } from "@/app/lib/uplaodthing";
-import { categories } from "@/app/lib/categories";
 import { useState } from "react";
 import { useFormState } from "react-dom";
 import { createProduct, editProduct } from "@/app/actions";
@@ -33,6 +32,7 @@ import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { productSchema } from "@/app/lib/zodSchemas";
 import { type $Enums } from "@prisma/client";
+import useCategories from "@/app/lib/hooks/useCategories";
 
 interface iAppProps {
   data: {
@@ -42,7 +42,7 @@ interface iAppProps {
     status: $Enums.ProductStatus;
     price: number;
     images: string[];
-    category: $Enums.Category;
+    category: string;
     isFeatured: boolean;
   };
 }
@@ -50,6 +50,7 @@ interface iAppProps {
 export function EditForm({ data }: iAppProps) {
   const [images, setImages] = useState<string[]>(data.images);
   const [lastResult, action] = useFormState(editProduct, undefined);
+  const { categories, loading, error } = useCategories();
   const [form, fields] = useForm({
     lastResult,
 
@@ -64,6 +65,15 @@ export function EditForm({ data }: iAppProps) {
   const handleDelete = (index: number) => {
     setImages(images.filter((_, i) => i !== index));
   };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error loading categories: {error.message}</p>;
+  }
+
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={action}>
       <input type="hidden" name="productId" value={data.id} />
