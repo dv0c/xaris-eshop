@@ -35,7 +35,7 @@ model Product {
   category    String
   isFeatured  Boolean       @default(false)
 
-  createdAt  DateTime @default(now())
+  createdAt DateTime @default(now())
 }
 
 model Banner {
@@ -64,13 +64,17 @@ enum ProductStatus {
 }
 
 model Category {
-  id      String    @id @default(uuid())
-  name    String
-  title   String
-  image   String @default("https://via.placeholder.com/150")
-
+  id        String   @id @default(uuid())
+  name      String
+  title     String
+  image     String   @default("https://via.placeholder.com/150")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
-  published Boolean @default(false)
+  published Boolean  @default(false)
+
+  parentId      String? // Optional field for parent category
+  parent        Category?  @relation("Subcategories", fields: [parentId], references: [id])
+  subcategories Category[] @relation("Subcategories")
+
+  @@index([parentId])
 }
