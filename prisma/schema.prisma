@@ -51,10 +51,31 @@ model Order {
   status String @default("pending")
   amount Int
 
+  firstName String?
+  lastName  String?
+
+  address String
+  city    String
+  appartment String?
+  state  String?
+  zip    String
+
+  shippingMethod ShippingMethod?
+
+  paymentMethod PaymentMethod?
+
   User   User?   @relation(fields: [userId], references: [id])
   userId String?
 
   createdAt DateTime @default(now())
+}
+
+enum PaymentMethod {
+  Stripe
+}
+
+enum ShippingMethod {
+  BOX
 }
 
 enum ProductStatus {

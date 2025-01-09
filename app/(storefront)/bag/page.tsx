@@ -82,9 +82,9 @@ export default async function BagRoute() {
               <p>${new Intl.NumberFormat("en-US").format(totalPrice)}</p>
             </div>
             {totalPrice > 0 && (
-              <form action={checkOut}>
-                <ChceckoutButton />
-              </form>
+                <Link href={'/checkout'} className="w-full">
+                  <Button className="w-full" >Checkout</Button>
+                </Link>
             )}
           </div>
         </div>

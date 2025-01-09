@@ -328,7 +328,7 @@ export async function checkOut() {
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
       cart.items.map((item) => ({
         price_data: {
-          currency: "usd",
+          currency: "eur",
           unit_amount: item.price * 100,
           product_data: {
             name: item.name,
@@ -341,6 +341,7 @@ export async function checkOut() {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: lineItems,
+      billing_address_collection: "required",
       success_url:
         process.env.NODE_ENV === "development"
           ? "http://localhost:3000/payment/success"

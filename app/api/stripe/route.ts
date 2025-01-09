@@ -2,6 +2,7 @@ import prisma from "@/app/lib/db";
 import { redis } from "@/app/lib/redis";
 import { stripe } from "@/app/lib/stripe";
 import { headers } from "next/headers";
+import { log } from "node:console";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -31,6 +32,9 @@ export async function POST(req: Request) {
           userId: session.metadata?.userId,
         },
       });
+
+      console.log(session);
+      
 
       await redis.del(`cart-${session.metadata?.userId}`);
       break;
