@@ -14,7 +14,7 @@ async function getData(productCategory: string) {
     },
     where: {
       status: "published",
-      name: productCategory,
+      category: productCategory,
     },
   });
 

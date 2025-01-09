@@ -114,6 +114,37 @@ export async function editProduct(prevState: any, formData: FormData) {
   redirect("/dashboard/products");
 }
 
+export async function editCategory(prevState: any, formData: FormData) {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user || user.email !== "tasosmeidanis12@gmail.com") {
+    return redirect("/");
+  }
+
+  const submission = parseWithZod(formData, {
+    schema: categorySchema,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  const categoryId = formData.get("categoryId") as string;
+  await prisma.category.update({
+    where: {
+      id: categoryId,
+    },
+    data: {
+      name: submission.value.name,
+      title: submission.value.title,
+      image: submission.value.image,
+    },
+  });
+
+  redirect("/dashboard/categories");
+}
+
 export async function deleteProduct(formData: FormData) {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
@@ -129,6 +160,23 @@ export async function deleteProduct(formData: FormData) {
   });
 
   redirect("/dashboard/products");
+}
+
+export async function deleteCategory(formData: FormData) {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user || user.email !== "tasosmeidanis12@gmail.com") {
+    return redirect("/");
+  }
+
+  await prisma.category.delete({
+    where: {
+      id: formData.get("categoryId") as string,
+    },
+  });
+
+  redirect("/dashboard/categories");
 }
 
 export async function createBanner(prevState: any, formData: FormData) {

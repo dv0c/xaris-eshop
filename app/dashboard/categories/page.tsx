@@ -99,12 +99,12 @@ export default async function CategoriesRoute() {
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                          <Link href={`/dashboard/products/${item.id}`}>
+                          <Link href={`/dashboard/categories/${item.id}`}>
                             Edit
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href={`/dashboard/products/${item.id}/delete`}>
+                          <Link href={`/dashboard/categories/${item.id}/delete`}>
                             Delete
                           </Link>
                         </DropdownMenuItem>
