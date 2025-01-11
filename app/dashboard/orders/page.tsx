@@ -26,6 +26,7 @@ async function getData() {
       amount: true,
       createdAt: true,
       status: true,
+      paid: true,
       id: true,
       address: true,
       city: true,
@@ -60,6 +61,7 @@ async function getData() {
 export default async function OrdersPage() {
   noStore();
   const data = await getData();
+
   return (
     <>
       <Card>
@@ -81,25 +83,25 @@ export default async function OrdersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((item) => (
-                <Dialog key={item.id}>
+              {data.map((order) => (
+                <Dialog key={order.id}>
                   <DialogTrigger asChild>
                     <TableRow className="cursor-pointer">
                       <TableCell>
-                        <p className="font-medium">{item.User?.firstName}</p>
+                        <p className="font-medium">{order.User?.firstName}</p>
                         <p className="hidden md:flex text-sm text-muted-foreground">
-                          {item.User?.email}
+                          {order.User?.email}
                         </p>
                       </TableCell>
-                      <TableCell>{item.address}</TableCell>
-                      <TableCell>{item.city}</TableCell>
-                      <TableCell>{item.zip}</TableCell>
-                      <TableCell>{item.status}</TableCell>
+                      <TableCell>{order.address}</TableCell>
+                      <TableCell>{order.city}</TableCell>
+                      <TableCell>{order.zip}</TableCell>
+                      <TableCell>{order.status}</TableCell>
                       <TableCell>
-                        {new Intl.DateTimeFormat("el-GR").format(item.createdAt)}
+                        {new Intl.DateTimeFormat("el-GR").format(order.createdAt)}
                       </TableCell>
                       <TableCell className="text-right">
-                        ${new Intl.NumberFormat("el-GR").format(item.amount / 100)}
+                        ${new Intl.NumberFormat("el-GR").format(order.amount / 100)}
                       </TableCell>
                     </TableRow>
                   </DialogTrigger>
@@ -108,54 +110,83 @@ export default async function OrdersPage() {
                       <DialogTitle className="text-2xl">Order Details</DialogTitle>
                     </DialogHeader>
                     <ScrollArea className="h-full pr-4">
-                      {item.productsList.map((product, index) => (
-                        <div key={index} className="space-y-6 mt-5 pt-5 border-t">
-                          <div className="flex flex-col md:flex-row gap-6">
-                            <Image
-                              src={product.images[0]}
-                              alt={product.images[0]}
-                              width={400}
-                              height={400}
-                              className="rounded-lg object-cover w-full md:w-1/2"
-                            />
-                            <div className="w-full md:w-1/2 space-y-4">
-                              <div>
-                                <h3 className="text-xl font-semibold">Order Information</h3>
-                                <p className="text-lg">Order ID: {item.id}</p>
+                      <div className="space-y-6">
+                        <div className="flex flex-col md:flex-row gap-6">
+                          <div className="w-full md:w-1/2 space-y-4">
+                            <div>
+                              <h3 className="text-xl font-semibold">Order Information</h3>
+                              <p className="text-lg">Order ID: {order.id}</p>
+                              <div className="flex gap-2 mt-2">
                                 <Badge
-                                  variant={product.status === "published" ? "default" :
-                                    item.status === "Shipped" ? "secondary" : "outline"}
+                                  className="capitalize"
+                                  variant={order.status === "waiting to be shipped" ? "destructive" :
+                                    order.status === "Shipped" ? "secondary" : "outline"}
                                 >
-                                  {product.status}
+                                  {order.status}
+                                </Badge>
+                                <Badge variant={order.paid ? "default" : "destructive"}>
+                                  {order.paid ? "Paid" : "Not Paid"}
                                 </Badge>
                               </div>
-                              <div>
-                                <h3 className="text-xl font-semibold">User Information</h3>
-                                <p>User ID: {item.User?.email}</p>
-                                <p>Name: {item.User?.firstName}</p>
-                                <p>Email: {item.User?.email}</p>
-                                {/* {orderDetails.userPhone && <p>Phone: {orderDetails.userPhone}</p>} */}
-                              </div>
-                              <div>
-                                <h3 className="text-xl font-semibold">Shipping Address</h3>
-                                <p>{item.address}</p>
-                                <p>{item.city}, {item.zip}</p>
-                              </div>
-                              <div>
-                                <h3 className="text-xl font-semibold">Order Details</h3>
-                                <p>Price: {new Intl.NumberFormat("el-GR").format(item.amount / 100)}€</p>
-                                <p>Payment Method: STRIPE</p>
-                                <p>Shipping Method: BOX</p>
-                              </div>
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-semibold">User Information</h3>
+                              {/* <p>User ID: {order.User?.id}</p> */}
+                              <p>Name: {order.User?.firstName}</p>
+                              <p>Email: {order.User?.email}</p>
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-semibold">Shipping Address</h3>
+                              <p>{order.address}</p>
+                              <p>{order.city}, {order.zip}</p>
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-semibold">Order Details</h3>
+                              <p>Total Amount: {new Intl.NumberFormat("el-GR").format(order.amount / 100)}€</p>
+                              <p>Order Date: {new Intl.DateTimeFormat("el-GR", {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              }).format(order.createdAt)}</p>
+                              <p>Payment Method: STRIPE</p>
+                              <p>Shipping Method: BOX</p>
                             </div>
                           </div>
-                          <div>
-                            <h3 className="text-xl font-semibold">Product Details</h3>
-                            Name: <p className="text-lg font-medium">{product.name}</p>
-                            Description: <p className="text-muted-foreground">{product.description}</p>
+                          <div className="w-full md:w-1/2">
+                            <h3 className="text-xl font-semibold mb-4">Products List</h3>
+                            <Table>
+                              <TableHeader>
+                                <TableRow>
+                                  <TableHead>Image</TableHead>
+                                  <TableHead>Name</TableHead>
+                                  <TableHead>Price</TableHead>
+                                </TableRow>
+                              </TableHeader>
+                              <TableBody>
+                                {order.productsList.map((product) => (
+                                  <TableRow key={product.id}>
+                                    <TableCell>
+                                      <Image
+                                        src={product.images[0]}
+                                        alt={product.name}
+                                        width={50}
+                                        height={50}
+                                        className="rounded-md object-cover"
+                                      />
+                                    </TableCell>
+                                    <TableCell>{product.name}</TableCell>
+                                    <TableCell>{new Intl.NumberFormat("el-GR").format(product.price / 100)}€</TableCell>
+                                    
+                                  </TableRow>
+                                ))}
+                              </TableBody>
+                            </Table>
                           </div>
                         </div>
-                      ))}
+
+                      </div>
                     </ScrollArea>
                   </DialogContent>
                 </Dialog>
@@ -167,3 +198,4 @@ export default async function OrdersPage() {
     </>
   );
 }
+

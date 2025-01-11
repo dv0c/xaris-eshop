@@ -48,7 +48,7 @@ export async function POST(req: Request) {
       await prisma.order.create({
         data: {
           amount: session.amount_total as number,
-          status: session.status as string,
+          status: session.payment_status === "paid" ? "waiting to be shipped" : "pending",
           paid: session.payment_status === "paid",
           userId,
           address: session.customer_details?.address?.line1 as string,
