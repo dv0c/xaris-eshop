@@ -36,6 +36,8 @@ model Product {
   isFeatured  Boolean       @default(false)
 
   createdAt DateTime @default(now())
+  Order     Order?   @relation(fields: [orderId], references: [id])
+  orderId   String?
 }
 
 model Banner {
@@ -47,22 +49,27 @@ model Banner {
 }
 
 model Order {
-  id     String @id @default(uuid())
-  status String @default("pending")
+  id     String  @id @default(uuid())
+  status String  @default("pending")
   amount Int
+  paid   Boolean @default(false)
+
+  products String[]
+
+  productsList Product[]
 
   firstName String?
   lastName  String?
 
-  address String
-  city    String
+  address    String?
+  city       String?
   appartment String?
-  state  String?
-  zip    String
+  state      String?
+  zip        String?
 
-  shippingMethod ShippingMethod?
+  shippingMethod ShippingMethod @default(BOX)
 
-  paymentMethod PaymentMethod?
+  paymentMethod PaymentMethod @default(Stripe)
 
   User   User?   @relation(fields: [userId], references: [id])
   userId String?

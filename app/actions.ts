@@ -62,7 +62,6 @@ export async function createCategory(prevState: unknown, formData: FormData) {
     return submission.reply();
   }
 
-
   await prisma.category.create({
     data: {
       name: submission.value.name,
@@ -73,7 +72,6 @@ export async function createCategory(prevState: unknown, formData: FormData) {
 
   redirect("/dashboard/categories");
 }
-
 
 export async function editProduct(prevState: any, formData: FormData) {
   const { getUser } = getKindeServerSession();
@@ -333,6 +331,10 @@ export async function checkOut() {
           product_data: {
             name: item.name,
             images: [item.imageString],
+            metadata: {
+              productId: item.id,
+            },
+            description: item.id,
           },
         },
         quantity: item.quantity,
