@@ -360,3 +360,21 @@ export async function checkOut() {
     return redirect(session.url as string);
   }
 }
+
+
+
+export async function updateOrderStatus(orderId: string, newStatus: string) {
+  try {
+    const updatedOrder = await prisma.order.update({
+      where: { id: orderId },
+      data: { status: newStatus },
+    });
+    return { success: true, order: updatedOrder };
+  } catch (error) {
+    console.error('Failed to update order status:', error);
+    return { success: false, error: 'Failed to update order status' };
+  }
+}
+
+
+
